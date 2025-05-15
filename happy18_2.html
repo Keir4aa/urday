@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>slide2</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background-color: rgb(255, 255, 255);
+      background-size: cover;
+      color: #004d40;
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+
+    .container {
+      text-align: center;
+      padding: 13% 10%;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 4vw;
+      line-height: 1.2;
+      margin-bottom: 0;
+      filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.4));
+    }
+
+    .subtext {
+      font-size: 1.2vw;
+      font-style: italic;
+      margin-top: 10px;
+      color: #004d40;
+    }
+
+    .bottom-note {
+      position: absolute;
+      bottom: 20px;
+      right: 30px;
+      font-size: 1vw;
+      color: #004d40;
+      z-index: 2;
+    }
+    
+    .background-guitar {
+      position: absolute;
+      top: 25%;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(to bottom, #e5b57f 0%, #bc8f5f 100%);
+      z-index: -1;
+    }
+
+    .background-guitar2 {
+      position: absolute;
+      top: 20%;
+      left: 0;
+      width: 100%;
+      height: 60%;
+      background: linear-gradient(to bottom, #673c0b 0%, #673c0b 100%);
+      z-index: -2;
+    }
+
+    .background-guitar3 {
+      position: absolute;
+      top: 0%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, #3e2201 0%, #211a13 100%);
+      z-index: -3;
+    }
+    .clock-wrapper {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      width: 200px;
+      height: 400px;
+      overflow: hidden;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .clock-image {
+      width: 400px;
+      height: 400px;
+    }
+
+    .wave-line {
+      position: absolute;
+      width: 100%;
+      height: 200px;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .wave-svg {
+      width: 4000px;
+      height: 200px;
+    }
+
+    .wave-line.w1 { top: 30%; transform: translateY(-50%); }
+    .wave-line.w2 { top: 45%; transform: translateY(-50%); }
+    .wave-line.w3 { top: 65%; transform: translateY(-50%); }
+    .wave-line.w4 { top: 40%; transform: translateY(-50%);  
+      width: 8000px;
+      height: 1000px;
+    }
+    svg path {
+      stroke: #004d40;
+      stroke-width: 2;
+      fill: none;
+      filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.4));
+    }
+
+    .image-placeholder {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      z-index: 1;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      border: 5px solid white;
+      border-radius: 10px;
+    }
+
+    .image-barsong {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      z-index: 3;
+      filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.3));
+      cursor: pointer;
+    }
+
+    .floating-gif {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      z-index: 3;
+      filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.5));
+      cursor: pointer;
+    }
+
+    @keyframes floatY {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-20px) rotate(5deg); }
+    }
+    .anim1 { animation: floatY 3s ease-in-out infinite alternate; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .anim2 { animation: bounce 1.5s ease-in-out infinite; }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .anim3 { animation: spin 5s linear infinite; }
+
+    .spin-count {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 1.2vw;
+      font-weight: bold;
+      color: #004d40;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 8px 14px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .spin-count.pop {
+      transform: scale(1.3);
+      opacity: 1;
+    }
+
+    .transition-block {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: #f5f1ea;
+      z-index: 10000;
+      transition: transform 1s ease-out;
+    }
+
+    .transition-block.slideIn {
+      transform: translateX(100%);
+    }
+    .fade-out {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .fade-in {
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>it's your<br>day babe</h1>
+    <div class="subtext">wish u all the best pretty</div>
+  </div>
+  <div class="background-guitar"></div>
+  <div class="background-guitar2"></div>
+  <div class="background-guitar3"></div>
+  <div id="spinCount" class="spin-count">Spins: 0</div>
+
+  <!-- Wave Lines -->
+  <div class="wave-line w1">
+    <svg class="wave-svg wave1" viewBox="0 0 4000 200" preserveAspectRatio="none">
+      <path d="M0,100 Q200,30 400,100 T800,100 T1200,100 T1600,100 T2000,100 T2400,100 T2800,100 T3200,100 T3600,100 T4000,100" />
+    </svg>
+    <img src="gif_slide2/1.jpg" class="image-placeholder" style="top: 85px; left: 600px;">
+    <img src="gif_slide2/4.jpg" class="image-placeholder" style="top: 80px; left: 1480px;">
+    <img src="gif_slide2/1.jpg" class="image-placeholder" style="top: 85px; left: 2200px;">
+  </div>
+
+  <div class="wave-line w2">
+    <svg class="wave-svg wave2" viewBox="0 0 4000 200" preserveAspectRatio="none">
+      <path d="M0,100 Q100,80 200,100 T400,100 T600,100 T800,100 T1000,100 T1200,100 T1400,100 T1600,100 T1800,100 T2000,100 T2200,100 T2400,100 T2600,100 T2800,100 T3000,100 T3200,100 T3400,100 T3600,100 T3800,100 T4000,100" />
+    </svg>
+    <img src="gif_slide2/2.jpg" class="image-placeholder" style="top: 50px; left: 100px;">
+    <img src="gif_slide2/5.jpg" class="image-placeholder" style="top: 70px; left: 1700px;">
+    <img src="gif_slide2/2.jpg" class="image-placeholder" style="top: 50px; left: 2100px;">
+  </div>
+
+  <div class="wave-line w3">
+    <svg class="wave-svg wave3" viewBox="0 0 4000 200" preserveAspectRatio="none">
+      <path d="M0,100 Q300,10 600,100 T1200,100 T1800,100 T2400,100 T3000,100 T3600,100 T4000,100" />
+    </svg>
+    <img src="gif_slide2/3.jpg" class="image-placeholder" style="top: 70px; left: 1100px;">
+    <img src="gif_slide2/6.jpg" class="image-placeholder" style="top: 100px; left: 2000px;">
+    <img src="gif_slide2/3.jpg" class="image-placeholder" style="top: 70px; left: 3500px;">
+  </div>
+
+  <div class="wave-line w4">
+    <img src="gif_slide2/11.png" class="image-barsong" style="top: 485px; left: 450px;">
+    <img src="gif_slide2/bar (1).png" class="image-barsong" style="top: 370px; left: 320px;">
+    <img src="gif_slide2/bar (1).png" class="image-barsong" style="top: 370px; left: 1920px;">
+    <img src="gif_slide2/11.png" class="image-barsong" style="top: 485px; left: 2450px;">
+    <img src="gif_slide2/bar 2.png" class="image-barsong" style="top: 600px; left: 250px;">
+    <img src="gif_slide2/bar 2.png" class="image-barsong" style="top: 600px; left: 2250px;">
+  </div>
+
+  <!-- Clock -->
+  <div class="clock-wrapper" onclick="animateClockAndWaves()">
+    <img src="gif_slide2/jamjam.png" alt="Clock Icon" class="clock-image" id="clockImage">
+  </div>
+
+  <!-- Floating GIFs -->
+  <img src="gif_slide2/guust.gif" class="floating-gif anim1" style="top: 20%; left: 10%;" draggable="true">
+  <img src="gif_slide2/ghoost.gif" class="floating-gif anim2" style="top: 70%; left: 80%;" draggable="true">
+  <img src="gif_slide2/fly.gif" class="floating-gif anim3" style="top: 30%; left: 75%;" draggable="true">
+
+  <div id="transitionBlock" class="transition-block"></div>
+
+  <script>
+    let currentGif = null;
+    let offset = { x: 0, y: 0 };
+    let clickCount = 0;
+
+    document.querySelectorAll('.floating-gif').forEach(gif => {
+      gif.addEventListener('dragstart', function(event) {
+        currentGif = gif;
+        offset.x = event.offsetX;
+        offset.y = event.offsetY;
+      });
+    });
+
+    document.body.addEventListener('dragover', function(event) {
+      event.preventDefault();
+    });
+
+    document.body.addEventListener('drop', function(event) {
+      event.preventDefault();
+      if (currentGif) {
+        const dropX = event.clientX - offset.x;
+        const dropY = event.clientY - offset.y;
+        currentGif.style.left = `${dropX}px`;
+        currentGif.style.top = `${dropY}px`;
+
+        const msg = document.createElement('div');
+        msg.textContent = 'aw, be nice please';
+        msg.style.position = 'absolute';
+        msg.style.left = `${dropX + 40}px`;
+        msg.style.top = `${dropY - 30}px`;
+        msg.style.color = '#fff';
+        msg.style.fontSize = '12px';
+        msg.style.fontWeight = '600';
+        msg.style.fontFamily = 'Segoe UI, sans-serif';
+        msg.style.background = 'linear-gradient(#076653, #0C342C, #06231D)';
+        msg.style.border = 'none';
+        msg.style.padding = '6px 10px';
+        msg.style.borderRadius = '16px';
+        msg.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+        msg.style.zIndex = '999';
+        msg.style.opacity = '0';
+        msg.style.transition = 'opacity 0.3s ease';
+
+        document.body.appendChild(msg);
+        setTimeout(() => { msg.style.opacity = '1'; }, 50);
+        setTimeout(() => {
+          msg.style.opacity = '0';
+          setTimeout(() => msg.remove(), 300);
+        }, 600);
+
+        currentGif = null;
+      }
+    });
+
+    function animateClockAndWaves() {
+  clickCount++;
+
+  const clock = document.getElementById("clockImage");
+  const spinDisplay = document.getElementById("spinCount");
+  const waves = [
+    document.querySelector(".wave1"),
+    document.querySelector(".wave2"),
+    document.querySelector(".wave3")
+  ];
+  const images = document.querySelectorAll(".image-placeholder");
+  const barSongImages = document.querySelectorAll(".image-barsong");
+  const transitionBlock = document.getElementById("transitionBlock");
+
+  // Update spin count text and animate it
+  spinDisplay.textContent = `Spins: ${clickCount}`;
+  spinDisplay.classList.add("pop");
+  setTimeout(() => spinDisplay.classList.remove("pop"), 300);
+
+  // Handle fade and text change on 2nd click
+  const mainTitle = document.querySelector("h1");
+  if (clickCount === 2) {
+    mainTitle.classList.add("fade-out");
+    setTimeout(() => {
+      mainTitle.innerHTML = "i wuff u<br>pweetie pie";
+      mainTitle.classList.remove("fade-out");
+      mainTitle.classList.add("fade-in");
+
+      setTimeout(() => {
+        mainTitle.classList.remove("fade-in");
+      }, 500);
+    }, 500);
+  }
+  
+  // Animate clock
+  clock.animate([
+    { transform: "rotate(0deg)" },
+    { transform: "rotate(360deg)" }
+  ], {
+    duration: 3500,
+    easing: "ease-in-out",
+    fill: "forwards"
+  });
+
+  // Animate wave lines
+  waves.forEach((wave, index) => {
+    const distance = 1600 + index * 400;
+    wave.animate([
+      { transform: "translateX(0)" },
+      { transform: `translateX(-${distance}px)` }
+    ], {
+      duration: 4000,
+      easing: "ease-in-out",
+      fill: "forwards"
+    });
+  });
+
+  // Animate placeholder images
+  images.forEach((image, index) => {
+    const waveIndex = Math.floor(index / 3);
+    const distance = 1600 + waveIndex * 400;
+    image.animate([
+      { transform: "translateX(0)" },
+      { transform: `translateX(-${distance}px)` }
+    ], {
+      duration: 4000,
+      easing: "ease-in-out",
+      fill: "forwards"
+    });
+  });
+
+  // Animate barsong images
+  barSongImages.forEach((barImage, index) => {
+    const waveIndex = Math.floor(index / 3);
+    const distance = 1600 + waveIndex * 400;
+    barImage.animate([
+      { transform: "translateX(0)" },
+      { transform: `translateX(-${distance}px)` }
+    ], {
+      duration: 4000,
+      easing: "ease-in-out",
+      fill: "forwards"
+    });
+  });
+
+  // Transition to next page
+  if (clickCount >= 3) {
+    transitionBlock.classList.add("slideIn");
+    setTimeout(() => {
+      window.location.href = "happy18_3.html";
+    }, 1000);
+  }
+}
+  </script>
+</body>
+</html>
