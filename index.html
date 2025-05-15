@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>slide1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            height: 100vh;
+        }
+
+        .top-bar, .bottom-bar {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background-color: rgba(255, 182, 193, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1;
+        }
+
+        .top-bar {
+            top: 0;
+        }
+
+        .bottom-bar {
+            bottom: 0;
+        }
+
+        .party-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .cake {
+            width: 220px;
+            animation: floatCake 3s ease-in-out infinite;
+            z-index: 2;
+            filter: drop-shadow(4px 4px 6px rgba(0,0,0,0.4));
+        }
+
+        @keyframes floatCake {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes floatBalloon1 {
+            0%   { transform: translateY(0) translateX(0); }
+            50%  { transform: translateY(-25px) translateX(10px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        @keyframes floatBalloon2 {
+            0%   { transform: translateY(0) translateX(0); }
+            50%  { transform: translateY(-30px) translateX(-10px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        @keyframes floatBalloon3 {
+            0%   { transform: translateY(0) translateX(0); }
+            50%  { transform: translateY(-20px) translateX(15px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        .balloons, .fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .balloon, .firework {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            pointer-events: all;
+        }
+
+        .balloon:hover, .firework:hover {
+            transform: scale(1.2);
+            opacity: 0.8;
+        }
+
+        .balloon {
+            width: 150px;
+            filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.5));
+        }
+
+        .b1 {
+            bottom: 10%;
+            left: 10%;
+            animation: floatBalloon1 5s ease-in-out infinite;
+        }
+
+        .b2 {
+            top: 15%;
+            right: 10%;
+            animation: floatBalloon2 6s ease-in-out infinite;
+        }
+
+        .b3 {
+            bottom: 40%;
+            right: 30%;
+            animation: floatBalloon3 4.5s ease-in-out infinite;
+        }
+
+        .firework {
+            width: 130px;
+            filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.5));
+        }
+
+        .title {
+            font-size: 3em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: white;
+            z-index: 2;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.7));
+            animation: floatTitle 3s ease-in-out infinite;
+        }
+
+        @keyframes floatTitle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .f1 { top: 5%; left: 20%; }
+        .f2 { top: 5%; right: 20%; }
+        .f3 { bottom: 10%; left: 40%; }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-1deg);
+            background: #fffdfa;
+            color: #2f3b52;
+            padding: 30px 40px;
+            border-radius: 5px;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.2), 2px 2px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            font-size: 1.2em;
+            width: 300px;
+            max-width: 90%;
+            font-family: 'Courier New', Courier, monospace;
+            border: 1px solid #ddd;
+            background-image: linear-gradient(to bottom, transparent 95%, rgba(0, 0, 0, 0.05) 96%);
+            background-size: 100% 2em;
+            animation: openNote 0.4s ease forwards;
+        }
+
+        .popup.show {
+            display: block;
+        }
+
+        @keyframes openNote {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%) rotate(-3deg) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) rotate(-1deg) scale(1);
+            }
+        }
+
+        .popup button {
+            margin-top: 15px;
+            padding: 5px 15px;
+            font-size: 1em;
+            background-color: #2f3b52;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .popup button:hover {
+            background-color: #1d283c;
+        }
+
+        .background-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: blur(3px);
+        }
+
+        .next-btn {
+            font-size: 1.4em;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
+            background: linear-gradient(135deg, #ffb6b9, #fae3d9);
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 3;
+        }
+
+        .next-btn:hover {
+            background: linear-gradient(135deg, #ff758c, #ffb199);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .next-btn::before {
+            content: "🎁 ";
+            font-size: 1em;
+        }
+
+        @keyframes sparkleMove {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: 100px 100px;
+            }
+        }
+
+        .sparkles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: sparkleMove 10s linear infinite;
+            mix-blend-mode: screen;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 10px #ffb6b9;
+            }
+            50% {
+                box-shadow: 0 0 20px #ff758c, 0 0 30px #ffb199;
+            }
+            100% {
+                box-shadow: 0 0 10px #ffb6b9;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="top-bar"></div>
+    <div class="bottom-bar"></div>
+
+    <audio autoplay loop>
+        <source src="audio/Happy Birthday to You.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="party-container">
+        <img src="Pocket Mirror.gif" alt="Background" class="background-img">
+        <img src="cake.png" alt="Birthday Cake" class="cake" onclick="shakeCake(this)">
+        <div class="title">HAPPY BIRTHDAY LOVE</div>
+
+        <button class="next-btn" onclick="window.location.href='happy18_2.html';">Next</button>
+    </div>
+
+    <div class="balloons">
+        <img src="cat_rider.gif" class="balloon b1" alt="Balloon" onclick="showMessage('Happy birthday sayang, semoga panjang umur dan selalu cantik')">
+        <img src="cat_white.gif" class="balloon b2" alt="Balloon" onclick="showMessage('Mwah mwah mwah')">
+        <img src="fly_cat.gif" class="balloon b3" alt="Balloon" onclick="showMessage('Wakwawk tua tua')">
+    </div>
+
+    <div class="fireworks">
+        <img src="firerowks.gif" class="firework f1" alt="Firework">
+        <img src="firerowks.gif" class="firework f2" alt="Firework">
+        <img src="firerowks.gif" class="firework f3" alt="Firework">
+    </div>
+
+    <div id="popup" class="popup">
+        <div id="popup-message"></div>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <div class="sparkles"></div>
+    
+    <canvas id="confetti-canvas"></canvas>
+
+    <script>
+        function showMessage(message) {
+            const popup = document.getElementById('popup');
+            const messageBox = document.getElementById('popup-message');
+            messageBox.innerText = message;
+            popup.classList.add('show');
+        }
+
+        function closePopup() {
+            document.getElementById('popup').classList.remove('show');
+        }
+
+        function shakeCake(cakeElement) {
+            cakeElement.classList.add('shake');
+            setTimeout(() => {
+                cakeElement.classList.remove('shake');
+            }, 400);
+        }
+
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let confetti = [];
+
+        for (let i = 0; i < 100; i++) {
+            confetti.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 6 + 4,
+                d: Math.random() * 100,
+                color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+                tilt: Math.random() * 10 - 10,
+                tiltAngle: 0
+            });
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confetti.forEach(c => {
+                ctx.beginPath();
+                ctx.lineWidth = c.r;
+                ctx.strokeStyle = c.color;
+                ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+                ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+                ctx.stroke();
+            });
+            updateConfetti();
+        }
+
+        function updateConfetti() {
+            confetti.forEach(c => {
+                c.y += Math.cos(c.d) + 1 + c.r / 2;
+                c.x += Math.sin(c.d);
+                c.tiltAngle += 0.1;
+                c.tilt = Math.sin(c.tiltAngle - i / 3) * 15;
+
+                if (c.y > canvas.height) {
+                    c.y = -10;
+                    c.x = Math.random() * canvas.width;
+                }
+            });
+        }
+
+        setInterval(drawConfetti, 30);
+    </script>
+
+</body>
+</html>
