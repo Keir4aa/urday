@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>slide4</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #1f1e1d;
+      font-family: 'Poppins', sans-serif;
+      color: #f5f1ec;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      animation: fadeIn 1.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #2b2a29;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+    .header-left img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin-right: 20px;
+      border: 2px solid #fbe4c2;
+      cursor: pointer;
+    }
+    .header-text h1 {
+      font-size: 28px;
+      color: #fbe4c2;
+    }
+    .header-text p {
+      font-size: 13px;
+      color: #cbbeb3;
+    }
+    .photo-strip {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .photo-strip img {
+      width: 100px;
+      height: 130px;
+      border-radius: 15px;
+      object-fit: cover;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .photo-strip img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(220, 114, 2, 0.3);
+    }
+    .section {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 50px;
+      align-items: center;
+      flex-wrap: wrap;
+      z-index: 0;
+    }
+    .section.reverse {
+      flex-direction: row-reverse;
+    }
+    .text {
+      flex: 1;
+      background-color: #2b2a29;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .text::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 300%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(251,228,194,0.05), transparent 70%);
+      animation: glow 6s linear infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+    @keyframes glow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .text h2 {
+      color: #fbe4c2;
+      margin-bottom: 10px;
+    }
+    .text p {
+      z-index: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #cbbeb3;
+      position: relative;
+    }
+    .image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+    .image img {
+      width: 100%;
+      max-width: 360px;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      transition: transform 0.1s;
+    }
+    .image img:hover {
+      transform: scale(1.03);
+    }
+    .avatar-strip img {
+      width: 40px;       
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover; 
+      border: 2px solid #fbe4c2; 
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .avatar-strip img:hover {
+      transform: scale(10);
+      box-shadow: 0 6px 20px rgba(220, 114, 2, 0.3);
+    }
+
+    .footer {
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+      margin-top: 60px;
+    }
+    .btn {
+      padding: 6px 10px;
+      background: #fbe4c2;
+      color: #1f1e1d;
+      font-weight: bold;
+      font-size: 13px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .btn:hover {
+      background: #e0caa9;
+    }
+
+    /* Modal (Popup) styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999999999999999999999999999999999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      pointer-events: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 80%;
+      max-height: 80%;
+      z-index: 99999999999999999999999999999999999;
+    }
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #fbe4c2;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #ccc;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    #nextBtnContainer {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .next-btn {
+      background: #fbe4c2;
+      color: #1f1e1d;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      transition: background 0.2s;
+    }
+
+    .next-btn:hover {
+      background: #e0caa9;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-left">
+        <img src="slide4/picture.jpg" alt="Clara Sweetie">
+        <div class="header-text">
+          <h1>POTTY<span style="font-size: 14px">my sweetie hearth</span></h1>
+          <p>@clraaaw</p>
+          <p>我爱我的男朋友.</p>
+        </div>
+      </div>
+      <div>
+        <a>instagram</a>
+        <a href="https://www.instagram.com/clraaaw" target="_blank" class="btn" style="text-decoration: none;">clraaaw</a>
+        <a href="https://www.instagram.com/mikottd" target="_blank" class="btn" style="background:#d0c7bf; color:#1f1e1d; text-decoration: none;">Mikottd</a>
+      </div>      
+    </div>
+
+    <div class="photo-strip">
+      <img src="slide4/12atas.jpg" alt="Gambar 1">
+      <img src="slide4/11atas.jpg" alt="Gambar 2">
+      <img src="slide4/13atas.jpg" alt="Gambar 3">
+    </div>
+
+    <div class="section">
+      <div class="text">
+        <h2>About Her</h2>
+        <p>She is the storm and the calm, the fire that burns yet warms my soul.
+          Her gaze pierces through the dark, lighting up parts of me I never knew existed.
+          When she whispers my name, it feels like the universe pauses—its breath held in reverence, waiting for her next word.
+          She is the dream I never dared to dream, the song I never thought I'd hear.
+          In her embrace, I find eternity, and in her smile, the promise of forever.</p>
+      </div>
+      <video width="640" height="360" autoplay muted loop>
+        <source src="slide4/ur_vid.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="section reverse">
+      <div class="text">
+        <h2>My Favourite Selfie Of Her</h2>
+        <p>[12/9/2023, 9:11 am] her: aku elek <br>
+          [12/9/2023, 9:11 am] me: CANTIKKKK <br>
+          [12/9/2023, 9:12 am] her: ga dipuji ayang cantik pas pap cekalang <br>
+          [12/9/2023, 9:12 am] her: ga di puji = elek</p>
+          
+        <div class="avatar-strip">
+          <img src="slide4/cos1.jpg" alt="Cosplay 1">
+          <img src="slide4/cos2.jpg" alt="Cosplay 2">
+          <img src="slide4/cos3.jpg" alt="Cosplay 3">
+          <img src="slide4/cos4.jpg" alt="Cosplay 4">
+          <img src="slide4/cos5.jpg" alt="Cosplay 5">
+          <img src="slide4/cos6.jpg" alt="Cosplay 6">
+        </div>
+      </div>
+      <div class="image">
+        <img src="slide4/picture.jpg" alt="Clara Sweetie">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="text">
+        <h2>My Personal Favourite Of Her Words</h2>
+        <p>kalo ada apa apa bilang potty yah.. <br>
+        bubub kalo cape hug cini <br>
+        mau kayak apa kamu tetep kamu di mataku cayang <br>
+        bubub ganteng</p>
+      </div>
+      <div class="image">
+        <img src="slide4/abr.jpg" alt="My Favourite Selfie">
+      </div>
+    </div>
+
+    <div class="section reverse">
+      <div class="text">
+        <h2>Her babies</h2>
+        <p>trio wut wut</p>
+        <div class="avatar-strip">
+          <img src="slide4/bogel.jpg" alt="Baby 1">
+          <img src="slide4/lupa.jpg" alt="Baby 2">
+          <img src="slide4/ciel.jpg" alt="Baby 3">
+        </div>
+      </div>
+      <div class="image">
+        <img src="slide4/cat.jpg" alt="Her Babies">
+      </div>
+    </div>    
+
+    <div class="section">
+      <div class="text">
+        <h2>Note</h2>
+        <p>To the one who's always been by my side, potty <br>
+          <br>
+          Thank you for choosing to stay, even when things weren't easy. <br>
+          Through the good days and the storms, your love has been my steady light. <br>
+          I'm not perfect, but you've never asked me to be—just real, just here. <br>
+          You are my calm, my home, and the reason I believe in love that lasts. <br>
+          As long as you'll have me, I'll keep holding your hand. Always. <br>
+          With all my heart, and I love you, always love you <br>
+          <br>
+          Your Love Miko.</p>
+      </div>
+      <div class="image">
+        <img src="slide4/down.jpg" alt="Miko and Clara">
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>my love clara</p>
+    </div>
+  </div>
+
+  <!-- Modal untuk tampilan gambar yang lebih besar -->
+  <div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id="caption"></div>
+  </div>
+
+  <div id="nextBtnContainer">
+    <a href="happy18_5.html" class="next-btn">Next →</a>
+  </div>
+
+  <script>
+    // Ambil gambar dan modal
+    var modal = document.getElementById("myModal");
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+
+    // Ambil semua gambar yang ingin kamu klik
+    var images = document.querySelectorAll('.photo-strip img, .header-left img');
+
+    // Loop melalui gambar dan tambahkan event listener untuk klik
+    images.forEach(function(image) {
+      image.onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt || 'Gambar';
+      }
+    });
+
+    // Klik untuk menutup modal
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    const nextBtn = document.getElementById("nextBtnContainer");
+
+      window.addEventListener("scroll", () => {
+        const scrollY = window.scrollY + window.innerHeight;
+        const threshold = document.body.offsetHeight - 200;
+
+        if (scrollY >= threshold) {
+          nextBtn.style.opacity = "1";
+          nextBtn.style.pointerEvents = "auto";
+        } else {
+          nextBtn.style.opacity = "0";
+          nextBtn.style.pointerEvents = "none";
+        }
+      });
+  </script>
+</body>
+</html>
