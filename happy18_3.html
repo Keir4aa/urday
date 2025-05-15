@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>slide3</title>
+  <style>
+    @font-face {
+      font-family: 'MADE Mirage';
+      src: url('slide3/font/MADEMirage-Regular.woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      background-color: #f5f1ea;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      font-family: 'MADE Mirage', serif;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    body.loaded {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .book {
+      width: 313px;
+      height: 556px;
+      perspective: 1200px;
+      position: relative;
+      transition: transform 0.7s ease;
+      transform: rotateX(0deg) rotateZ(0deg);
+    }
+
+    .book.zoomed {
+      transform: scale(1.3) rotateX(15deg) rotateZ(-5deg);
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      color: #2c2c2c;
+      font-size: 20px;
+      font-family: 'MADE Mirage', serif;
+      text-shadow: 1px 1px 1px #fff;
+      border-radius: 5px;
+      transform-origin: left center;
+      transition: transform 0.3s, z-index 0.1s;
+    }
+
+    .page img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .page .cover-title {
+      position: absolute;
+      top: center;
+      text-align: center;
+      filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.4));
+      padding: 10px;
+      border-radius: 5px;
+      color: #290114;
+    }
+
+    .page:nth-child(1) { z-index: 5; }
+    .page:nth-child(2) { z-index: 4; }
+    .page:nth-child(3) { z-index: 3; }
+    .page:nth-child(4) { z-index: 2; }
+    .page:nth-child(5) { z-index: 1; }
+
+    .flipped {
+      transform: rotateY(-180deg);
+      z-index: 0 !important;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .snow-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .snow {
+      position: absolute;
+      width: 30px;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      opacity: 1;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+
+    #nextButton {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      padding: 12px 24px;
+      background-color: #2c2c2c;
+      color: #fff;
+      font-family: 'MADE Mirage', serif;
+      font-size: 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: background 0.3s;
+    }
+
+    #nextButton.hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="snow-container">
+    <img class="snow" src="slide3/fall_love.png">
+    <img class="snow" src="slide3/fall_love.png">
+    <img class="snow" src="slide3/fall_love.png">
+    <img class="snow" src="slide3/fall_love.png">
+    <img class="snow" src="slide3/fall_love.png">
+    <img class="snow" src="slide3/fall_love.png">
+    <img class="snow" src="slide3/fall_love.png">
+    <img class="snow" src="slide3/fall_love.png">
+  </div>
+
+  <div class="book" id="book">
+    <div class="page" onclick="flip(this)">
+      <img src="slide3/covers_00000.jpg" alt="Page 1">
+    </div>
+    <div class="page" onclick="flip(this)">
+      <img src="slide3/papper (1).jpeg" alt="Page 2">
+      <div class="cover-title">"Happy birthday, my love. I'm always wishing the best for you—may your days be filled with light, laughter, and the warmth of those who truly care. I hope every step you take brings you closer to your dreams, and that life surrounds you with beauty, kindness, and peace. Keep growing into the amazing person you are. No matter what comes, I'll always be here for you."</div>
+    </div>
+    <div class="page" onclick="flip(this)">
+      <img src="slide3/papper (1).jpeg" alt="Page 3">
+      <div class="cover-title">"I know your childhood wasn't always filled with the sweetest memories—and maybe some parts still weigh heavy on your heart. But now, we're here. And together, we get to write new memories—ones that are soft, full of love, and wrapped in warmth. You deserve happiness that feels safe. So let's build moments that heal, little by little. This time, the story is ours to shape—and I promise, I'll be by your side for every beautiful chapter we create."</div>
+    </div>
+    <div class="page" onclick="flip(this)">
+      <img src="slide3/papper (1).jpeg" alt="Page 4">
+      <div class="cover-title">"The first time we met was so funny, and it's a moment I'll never forget. It was unexpected, and everything seemed to fall into place in the most amusing way. The way we stumbled through the introduction, trying to make sense of the situation—it was like something out of a movie. Even though it was a bit awkward, it became one of those memories that always brings a smile to my face. From that moment on, I knew it would be a story we'd always laugh about together."</div>
+    </div>
+    <div class="page" onclick="flip(this)">
+      <img src="slide3/papper (1).jpeg" alt="Page 5">
+      <div class="cover-title">"Now, look at us—we've come so far. From that funny first meeting to where we are today, it's incredible to see how much we've grown together. And now, we're thinking about the future, both of us with the same dreams and goals in mind. It's amazing how far we've come and how much we've shared, and I cant help but feel excited about what's next. We've built something beautiful, and I know that whatever the future holds, we'll face it together."</div>
+    </div>
+  </div>
+
+  <a id="nextButton" class="hidden" href="happy18_4.html">Next →</a>
+
+  <script>
+    function randomizeSnowflakes() {
+      const snows = document.querySelectorAll('.snow');
+      snows.forEach(snow => {
+        const left = Math.random() * 100;
+        const duration = 10 + Math.random() * 5;
+        const delay = Math.random() * 6;
+        const size = 20 + Math.random() * 20;
+
+        snow.style.left = `${left}vw`;
+        snow.style.animationDuration = `${duration}s`;
+        snow.style.animationDelay = `${delay}s`;
+        snow.style.width = `${size}px`;
+        snow.style.top = `-${100 + Math.random() * 200}px`;
+      });
+    }
+
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+      randomizeSnowflakes();
+    });
+
+    const book = document.getElementById('book');
+    const pages = document.querySelectorAll('.page');
+    const nextButton = document.getElementById('nextButton');
+
+    function getRandom(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function flip(page) {
+      page.classList.toggle("flipped");
+
+      const flippedPages = document.querySelectorAll(".page.flipped");
+      const flippedCount = flippedPages.length;
+
+      if (flippedCount > 0) {
+        const scale = getRandom(1.25, 1.35).toFixed(5);
+        const rotateX = getRandom(5, 20).toFixed(1);
+        const rotateZ = getRandom(-20, 10).toFixed(1);
+
+        book.style.transition = "transform 0.4s ease-in-out";
+        book.style.transform = `scale(${scale}) rotateX(${rotateX}deg) rotateZ(${rotateZ}deg)`;
+      } else {
+        book.style.transition = "transform 0.5s ease-in-out";
+        book.style.transform = "scale(1) rotateX(0deg) rotateZ(0deg)";
+      }
+
+      const title = page.querySelector(".cover-title");
+      if (title) {
+        title.classList.toggle("hidden", page.classList.contains("flipped"));
+      }
+
+      if (flippedCount === pages.length) {
+        nextButton.classList.remove('hidden');
+
+        setTimeout(() => {
+          resetBook();
+        }, 400);
+      }
+    }
+
+    function resetBook() {
+      const flipped = Array.from(pages).filter(p => p.classList.contains('flipped')).reverse();
+
+      flipped.forEach((page, i) => {
+        setTimeout(() => {
+          page.classList.remove('flipped');
+          const title = page.querySelector(".cover-title");
+          if (title) title.classList.remove("hidden");
+
+          if (i === flipped.length - 1) {
+            setTimeout(() => {
+              book.style.transition = "transform 0.5s ease-in-out";
+              book.style.transform = "scale(1) rotateX(0deg) rotateZ(0deg)";
+              nextButton.classList.remove('hidden');
+            }, 300);
+          }
+        }, i * 300);
+      });
+    }
+  </script>
+</body>
+
+</html>
