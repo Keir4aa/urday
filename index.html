@@ -308,6 +308,14 @@
     <canvas id="confetti-canvas"></canvas>
 
     <script>
+        const audio = document.getElementById("bg-music");
+            audio.play().catch(() => {
+            const resumeAudio = () => {
+         audio.play();
+      document.removeEventListener("click", resumeAudio);
+    };
+    document.addEventListener("click", resumeAudio);
+  });
         function showMessage(message) {
             const popup = document.getElementById('popup');
             const messageBox = document.getElementById('popup-message');
